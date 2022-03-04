@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Build Schema",
+  "$ref": "#/definitions/build",
+  "definitions": {
+    "build": {
+      "type": "object",
+      "properties": {
+        "CI": {
+          "type": "boolean"
+        },
+        "Configuration": {
+          "type": "string",
+          "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
+          "enum": [
+            "Debug",
+            "Release"
+          ]
+        },
+        "Continue": {
+          "type": "boolean",
+          "description": "Indicates to continue a previously failed build attempt"
+        },
+        "Help": {
+          "type": "boolean",
+          "description": "Shows the help text for this build assembly"
+        },
+        "Host": {
+          "type": "string",
+          "description": "Host for execution. Default is 'automatic'",
+          "enum": [
+            "AppVeyor",
+            "AzurePipelines",
+            "Bamboo",
+            "Bitrise",
+            "GitHubActions",
+            "GitLab",
+            "Jenkins",
+            "Rider",
+            "SpaceAutomation",
+            "TeamCity",
+            "Terminal",
+            "TravisCI",
+            "VisualStudio",
+            "VSCode"
+          ]
+        },
+        "NoLogo": {
+          "type": "boolean",
+          "description": "Disables displaying the NUKE logo"
+        },
+        "Partition": {
+          "type": "string",
+          "description": "Partition to use on CI"
+        },
+        "Plan": {
+          "type": "boolean",
+          "description": "Shows the execution plan (HTML)"
+        },
+        "Profile": {
+          "type": "array",
+          "description": "Defines the profiles to load",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Root": {
+          "type": "string",
+          "description": "Root directory during build execution"
+        },
+        "Skip": {
+          "type": "array",
+          "description": "List of targets to be skipped. Empty list skips all dependencies",
+          "items": {
+            "type": "string",
+            "enum": [
+              "All",
+              "API_All",
+              "API_APITest",
+              "API_Clean",
+              "API_Compile",
+              "Api_DockerBuild",
+              "API_Init",
+              "API_IntegrationTest",
+              "API_Migrate_DB",
+              "API_Restore",
+              "API_Test",
+              "API_UnitTest",
+              "BFF_All",
+              "BFF_Clean",
+              "BFF_Compile",
+              "BFF_DockerBuild",
+              "BFF_Restore",
+              "Clean",
+              "Clean_Dev_Certificates",
+              "Device_ALL",
+              "Device_Clean",
+              "Device_Compile",
+              "Device_Restore",
+              "Device_Restore_Frontend",
+              "Docker_Info",
+              "E2E_RunAs_CI",
+              "E2E_RunAs_Local",
+              "E2E_Test",
+              "Frontend_AddTailwind",
+              "Frontend_All",
+              "Frontend_Clean",
+              "Frontend_RelayCompile",
+              "Frontend_Restore",
+              "Frontend_TryBuild",
+              "Identity_All",
+              "Identity_Clean",
+              "Identity_Compile",
+              "Identity_Container",
+              "Identity_Init",
+              "Identity_Migrate_DB",
+              "Identity_Restore",
+              "Init",
+              "Init_Newman",
+              "Postgresql_Init",
+              "Postgresql_Stop",
+              "Print_Net_SDK",
+              "Restore_Tools",
+              "SetupCertificates_CI",
+              "SetupCertificates_Local",
+              "SetupDevCertificates",
+              "Start_API_Server",
+              "Start_BFF_Server",
+              "Start_Identity_Server",
+              "Stop_API_Server",
+              "Stop_BFF_Server",
+              "Stop_Identity_Server",
+              "TrustDevCertificates_CI",
+              "TrustDevCertificates_Local"
+            ]
+          }
+        },
+        "Solution": {
+          "type": "string",
+          "description": "Path to a solution file that is automatically loaded"
+        },
+        "Target": {
+          "type": "array",
+          "description": "List of targets to be invoked. Default is '{default_target}'",
+          "items": {
+            "type": "string",
+            "enum": [
+              "All",
+              "API_All",
+              "API_APITest",
+              "API_Clean",
+              "API_Compile",
+              "Api_DockerBuild",
+              "API_Init",
+              "API_IntegrationTest",
+              "API_Migrate_DB",
+              "API_Restore",
+              "API_Test",
+              "API_UnitTest",
+              "BFF_All",
+              "BFF_Clean",
+              "BFF_Compile",
+              "BFF_DockerBuild",
+              "BFF_Restore",
+              "Clean",
+              "Clean_Dev_Certificates",
+              "Device_ALL",
+              "Device_Clean",
+              "Device_Compile",
+              "Device_Restore",
+              "Device_Restore_Frontend",
+              "Docker_Info",
+              "E2E_RunAs_CI",
+              "E2E_RunAs_Local",
+              "E2E_Test",
+              "Frontend_AddTailwind",
+              "Frontend_All",
+              "Frontend_Clean",
+              "Frontend_RelayCompile",
+              "Frontend_Restore",
+              "Frontend_TryBuild",
+              "Identity_All",
+              "Identity_Clean",
+              "Identity_Compile",
+              "Identity_Container",
+              "Identity_Init",
+              "Identity_Migrate_DB",
+              "Identity_Restore",
+              "Init",
+              "Init_Newman",
+              "Postgresql_Init",
+              "Postgresql_Stop",
+              "Print_Net_SDK",
+              "Restore_Tools",
+              "SetupCertificates_CI",
+              "SetupCertificates_Local",
+              "SetupDevCertificates",
+              "Start_API_Server",
+              "Start_BFF_Server",
+              "Start_Identity_Server",
+              "Stop_API_Server",
+              "Stop_BFF_Server",
+              "Stop_Identity_Server",
+              "TrustDevCertificates_CI",
+              "TrustDevCertificates_Local"
+            ]
+          }
+        },
+        "Verbosity": {
+          "type": "string",
+          "description": "Logging verbosity during build execution. Default is 'Normal'",
+          "enum": [
+            "Minimal",
+            "Normal",
+            "Quiet",
+            "Verbose"
+          ]
+        }
+      }
+    }
+  }
+}

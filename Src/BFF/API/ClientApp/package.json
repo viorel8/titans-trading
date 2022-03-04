@@ -1,0 +1,121 @@
+{
+  "name": "trouble-training-frontend",
+  "version": "0.1.0",
+  "author": "Dalibor Kundrat",
+  "private": true,
+  "dependencies": {
+    "@opentelemetry/api": "1.0.4",
+    "@opentelemetry/context-zone": "1.0.1",
+    "@opentelemetry/exporter-trace-otlp-http": "0.27.0",
+    "@opentelemetry/instrumentation-document-load": "0.27.0",
+    "@opentelemetry/instrumentation-fetch": "0.27.0",
+    "@opentelemetry/resources": "1.0.1",
+    "@opentelemetry/sdk-trace-base": "1.0.1",
+    "@opentelemetry/sdk-trace-web": "1.0.1",
+    "@testing-library/jest-dom": "5.11.4",
+    "@testing-library/react": "11.1.0",
+    "@testing-library/user-event": "12.1.10",
+    "@types/js-cookie": "2.2.7",
+    "@types/mocha": "9.0.0",
+    "axios": "0.25.0",
+    "babel-plugin-import": "1.13.3",
+    "clsx": "1.1.1",
+    "copy-to-clipboard": "3.3.1",
+    "customize-cra": "1.0.0",
+    "eslint-plugin-cypress": "2.12.1",
+    "eslint-plugin-relay": "1.8.2",
+    "formik": "2.2.9",
+    "framer-motion": "4.1.17",
+    "graphql": "15.4.0-experimental-stream-defer.1",
+    "graphql-config": "4.0.1",
+    "history": "5.2.0",
+    "meros": "1.1.4",
+    "react": "18.0.0-rc.0-next-9d4e8e84f-20220207",
+    "react-dom": "18.0.0-rc.0-next-9d4e8e84f-20220207",
+    "react-helmet": "6.1.0",
+    "react-indiana-drag-scroll": "2.1.0",
+    "react-json-view": "1.21.3",
+    "react-relay": "0.0.0-main-2d5d60fc",
+    "react-router": "6.0.0-beta.0",
+    "react-router-dom": "6.0.0-beta.0",
+    "react-scripts": "4.0.3",
+    "relay-compiler-experimental": "0.0.0-main-bc778d49",
+    "relay-runtime": "0.0.0-main-2d5d60fc",
+    "tailwindcss-truncate-multiline": "1.0.3",
+    "typescript": "4.1.2",
+    "web-vitals": "1.0.1"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "relay"
+      ]
+    ]
+  },
+  "scripts": {
+    "relaycompile_js": "relay-compiler relay.json",
+    "relaycompile_presisted_js": "relay-compiler --persist-output persisted-output/persisted-queries.json && node converter.js persisted-output/persisted-queries.json ../../../APIServer/API/persisted_queries",
+    "startwatch": "npm run watch:css && craco start start",
+    "start": "craco start",
+    "build": "craco build",
+    "start_node17": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco start",
+    "build_node17": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco build",
+    "test": "cypress run --config pageLoadTimeout=30000,baseUrl=https://localhost:5015",
+    "cypress": "cypress open --config pageLoadTimeout=30000,baseUrl=https://localhost:5015",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "6.4.3",
+    "@cypress/react": "5.10.3",
+    "@cypress/webpack-dev-server": "1.7.0",
+    "@fortawesome/fontawesome-free": "5.13.0",
+    "@fortawesome/fontawesome-svg-core": "1.2.28",
+    "@fortawesome/free-regular-svg-icons": "5.13.0",
+    "@fortawesome/free-solid-svg-icons": "5.13.0",
+    "@fortawesome/react-fontawesome": "0.1.9",
+    "@types/history": "4.7.8",
+    "@types/jest": "26.0.15",
+    "@types/node": "16.7.13",
+    "@types/react": "^17.0.21",
+    "@types/react-dom": "17.0.9",
+    "@types/react-helmet": "6.1.1",
+    "@types/react-relay": "11.0.2",
+    "@types/react-router": "5.1.9",
+    "@types/react-router-dom": "5.1.7",
+    "@types/relay-compiler": "8.0.1",
+    "@types/relay-runtime": "12.0.0",
+    "autoprefixer": "^9.8.8",
+    "babel-plugin-macros": "3.1.0",
+    "babel-plugin-relay": "12.0.0",
+    "cypress": "9.1.0",
+    "fs-extra": "9.1.0",
+    "har-validator": "5.1.3",
+    "nan": "2.15.0",
+    "postcss": "^7.0.39",
+    "relay-compiler": "12.0.0",
+    "relay-compiler-language-typescript": "14.3.0",
+    "relay-config": "11.0.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

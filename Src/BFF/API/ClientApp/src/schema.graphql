@@ -1,0 +1,729 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+interface IBaseError {
+  message: String
+}
+
+"The node interface is implemented by entities that have a global unique identifier."
+interface Node {
+  id: ID!
+}
+
+type BadRequest implements IBaseError {
+  message: String
+}
+
+type BaseError implements IBaseError {
+  message: String
+}
+
+"CreateWebHookPayload"
+type CreateWebHookPayload {
+  errors: [ICreateWebHookError]
+  "Created WebHook"
+  hook: GQL_WebHook
+  query: Query!
+}
+
+type GQL_User implements Node {
+  "Email"
+  email: String
+  id: ID!
+  "Name"
+  name: String
+  "Name"
+  sessionId: String!
+  systemid: String!
+}
+
+type GQL_WebHook implements Node {
+  "Content Type"
+  contentType: String
+  "Unique GUID"
+  guid: String
+  id: ID!
+  "Is active / NotActiv"
+  isActive: Boolean!
+  "Timestamp of last hook trigger"
+  lastTrigger: DateTime
+  "Hook Events context"
+  listeningEvents: [HookEventType!]
+  "Hook call records history"
+  records(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+    where: GQL_WebHookRecordFilterInput
+  ): RecordsConnection
+  systemid: Long!
+  "Webhook endpoint"
+  webHookUrl: String
+}
+
+type GQL_WebHookRecord implements Node {
+  "Exception"
+  exception: String
+  "Record GUID"
+  guid: String
+  "Hook record DB Id"
+  id: ID!
+  "Request json"
+  requestBody: String
+  "Request Headers json"
+  requestHeaders: String
+  "Response json"
+  responseBody: String
+  "Hook result enum"
+  result: RecordResult!
+  "Response status code"
+  statusCode: Int!
+  systemid: Long!
+  "Hook Call Timestamp"
+  timestamp: DateTime!
+  "TriggerType"
+  triggerType: HookEventType!
+  "Linked Webhook System Id"
+  webHook: GQL_WebHook
+  "Linked Webhook GQL Id"
+  webHookID: ID
+  "Linked Webhook Id"
+  webHookSystemID: Long!
+}
+
+type InternalServerError implements IBaseError {
+  message: String
+}
+
+"WebHooks Mutations"
+type Mutation {
+  "Create new  webhook"
+  createWebHook(request: CreateWebHookInput): CreateWebHookPayload
+  "Remove  WebHook"
+  removeWebHook(request: RemoveWebHookInput): RemoveWebHookPayload
+  "Update existing  webhook"
+  updateWebHook(request: UpdateWebHookInput): UpdateWebHookPayload
+  "Update webhook activ state"
+  updateWebHookActivState(
+    request: UpdateWebHookActivStateInput
+  ): UpdateWebHookActivStatePayload
+  "Update webhook secret"
+  updateWebHookSecret(
+    request: UpdateWebHookSecretInput
+  ): UpdateWebHookSecretPayload
+  "Update webhook triger events"
+  updateWebHookTriggerEvents(
+    request: UpdateWebHookTriggerEventsInput
+  ): UpdateWebHookTriggerEventsPayload
+  "Update webhook uri"
+  updateWebHookUri(request: UpdateWebHookUriInput): UpdateWebHookUriPayload
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+  "Indicates whether more edges exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more edges exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+}
+
+"Webhook Querys"
+type Query {
+  me: GQL_User
+  "Fetches an object given its ID."
+  node("ID of the object." id: ID!): Node
+  "Lookup nodes by a list of IDs."
+  nodes("The list of node IDs." ids: [ID!]!): [Node]!
+  "Return server current date-time\n\n\n**Returns:**\nDateTime current date time"
+  serverDateTime: DateTime!
+  "Return webhook by gql ID"
+  webHookById(webhook_id: ID!): GQL_WebHook
+  "Return webhook by system (DB) Id"
+  webHookBySystemId(webhook_id: Long!): GQL_WebHook
+  "Returns Webook supported event triggers"
+  webHookEventsTriggers: [String]
+  "Get WebHook Record by ID"
+  webHookRecord(hook_record_id: ID!): GQL_WebHookRecord
+  "Return collection of webhook records"
+  webHookRecords(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    hook_id: ID!
+    "Returns the last _n_ elements from the list."
+    last: Int
+    where: GQL_WebHookRecordFilterInput
+  ): WebHookRecordsConnection
+  webHooksTestStream: [GQL_WebHook]
+  "Return collection of webhook records"
+  webhooks(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): WebhooksConnection
+}
+
+"A connection to a list of items."
+type RecordsConnection {
+  "A list of edges."
+  edges: [RecordsEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_WebHookRecord]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type RecordsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_WebHookRecord
+}
+
+"RemoveWebHookPayload"
+type RemoveWebHookPayload {
+  errors: [IRemoveWebHookError]
+  query: Query!
+  "Removed Hook Id"
+  removed_id: ID
+}
+
+type UnAuthorised implements IBaseError {
+  message: String
+}
+
+"UpdateWebHookActivStatePayload"
+type UpdateWebHookActivStatePayload {
+  errors: [IUpdateWebHookActivStateError]
+  "Updated WebHook"
+  hook: GQL_WebHook
+  query: Query!
+}
+
+"UpdateWebHookPayload"
+type UpdateWebHookPayload {
+  errors: [IUpdateWebHookError]
+  "Updated WebHook"
+  hook: GQL_WebHook
+  query: Query!
+}
+
+"UpdateWebHookSecretPayload"
+type UpdateWebHookSecretPayload {
+  errors: [IUpdateWebHookSecretError]
+  "Updated WebHook"
+  hook: GQL_WebHook
+  query: Query!
+}
+
+"UpdateWebHookTriggerEventsPayload"
+type UpdateWebHookTriggerEventsPayload {
+  errors: [IUpdateWebHookTriggerEventsError]
+  "Updated WebHook"
+  hook: GQL_WebHook
+  query: Query!
+}
+
+"UpdateWebHookUriPayload"
+type UpdateWebHookUriPayload {
+  errors: [IUpdateWebHookUriError]
+  "Updated WebHook"
+  hook: GQL_WebHook
+  query: Query!
+}
+
+type UserDeactivated implements IBaseError {
+  message: String
+}
+
+type ValidationError implements IBaseError {
+  fieldName: String
+  message: String
+}
+
+type WebHookNotFound implements IBaseError {
+  message: String
+}
+
+"A connection to a list of items."
+type WebHookRecordsConnection {
+  "A list of edges."
+  edges: [WebHookRecordsEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_WebHookRecord]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type WebHookRecordsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_WebHookRecord
+}
+
+"A connection to a list of items."
+type WebhooksConnection {
+  "A list of edges."
+  edges: [WebhooksEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_WebHook]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type WebhooksEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_WebHook
+}
+
+"ICreateWebHookError"
+union ICreateWebHookError = ValidationError | UnAuthorised | InternalServerError
+
+"IRemoveWebHookError"
+union IRemoveWebHookError =
+    ValidationError
+  | UnAuthorised
+  | InternalServerError
+  | WebHookNotFound
+
+"IUpdateWebHookActivStateError"
+union IUpdateWebHookActivStateError =
+    ValidationError
+  | UnAuthorised
+  | InternalServerError
+  | WebHookNotFound
+
+"IUpdateWebHookError"
+union IUpdateWebHookError =
+    ValidationError
+  | UnAuthorised
+  | InternalServerError
+  | WebHookNotFound
+
+"IUpdateWebHookSecretError"
+union IUpdateWebHookSecretError =
+    ValidationError
+  | UnAuthorised
+  | InternalServerError
+  | WebHookNotFound
+
+"IUpdateWebHookTriggerEventsError"
+union IUpdateWebHookTriggerEventsError =
+    ValidationError
+  | UnAuthorised
+  | InternalServerError
+  | WebHookNotFound
+
+"IUpdateWebHookUriError"
+union IUpdateWebHookUriError =
+    ValidationError
+  | UnAuthorised
+  | InternalServerError
+  | WebHookNotFound
+
+input BooleanOperationFilterInput {
+  eq: Boolean
+  neq: Boolean
+}
+
+input ComparableDateTimeOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime!]
+  nin: [DateTime!]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input ComparableInt32OperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int!]
+  nin: [Int!]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input ComparableInt64OperationFilterInput {
+  eq: Long
+  neq: Long
+  in: [Long!]
+  nin: [Long!]
+  gt: Long
+  ngt: Long
+  gte: Long
+  ngte: Long
+  lt: Long
+  nlt: Long
+  lte: Long
+  nlte: Long
+}
+
+input ComparableNullableOfDateTimeOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+"Crate new  webhook"
+input CreateWebHookInput {
+  "HookEvents"
+  hookEvents: [HookEventType!]
+  "IsActive"
+  isActive: Boolean!
+  "Secret"
+  secret: String
+  "Url"
+  webHookUrl: String
+}
+
+input GQL_WebHookFilterInput {
+  and: [GQL_WebHookFilterInput!]
+  or: [GQL_WebHookFilterInput!]
+  iD: ComparableInt64OperationFilterInput
+  "Unique GUID"
+  guid: StringOperationFilterInput
+  "Webhook endpoint"
+  webHookUrl: StringOperationFilterInput
+  "Content Type"
+  contentType: StringOperationFilterInput
+  "Is active / NotActiv"
+  isActive: BooleanOperationFilterInput
+  "Hook Events context"
+  listeningEvents: ListHookEventTypeOperationFilterInput
+  "Hook call records history"
+  records: ListFilterInputTypeOfGQL_WebHookRecordFilterInput
+  "Timestamp of last hook trigger"
+  lastTrigger: ComparableNullableOfDateTimeOperationFilterInput
+}
+
+input GQL_WebHookRecordFilterInput {
+  and: [GQL_WebHookRecordFilterInput!]
+  or: [GQL_WebHookRecordFilterInput!]
+  "Hook record DB Id"
+  iD: ComparableInt64OperationFilterInput
+  "Linked Webhook GQL Id"
+  webHookID: ComparableInt64OperationFilterInput
+  "Linked Webhook Id"
+  webHookSystemID: ComparableInt64OperationFilterInput
+  "Record GUID"
+  guid: StringOperationFilterInput
+  "Linked Webhook System Id"
+  webHook: GQL_WebHookFilterInput
+  "TriggerType"
+  triggerType: HookEventTypeOperationFilterInput
+  "Hook result enum"
+  result: RecordResultOperationFilterInput
+  "Response status code"
+  statusCode: ComparableInt32OperationFilterInput
+  "Response json"
+  responseBody: StringOperationFilterInput
+  "Request json"
+  requestBody: StringOperationFilterInput
+  "Request Headers json"
+  requestHeaders: StringOperationFilterInput
+  "Exception"
+  exception: StringOperationFilterInput
+  "Hook Call Timestamp"
+  timestamp: ComparableDateTimeOperationFilterInput
+}
+
+input HookEventTypeOperationFilterInput {
+  eq: HookEventType
+  neq: HookEventType
+  in: [HookEventType!]
+  nin: [HookEventType!]
+}
+
+input ListFilterInputTypeOfGQL_WebHookRecordFilterInput {
+  all: GQL_WebHookRecordFilterInput
+  none: GQL_WebHookRecordFilterInput
+  some: GQL_WebHookRecordFilterInput
+  any: Boolean
+}
+
+input ListHookEventTypeOperationFilterInput {
+  all: HookEventTypeOperationFilterInput
+  none: HookEventTypeOperationFilterInput
+  some: HookEventTypeOperationFilterInput
+  any: Boolean
+}
+
+input RecordResultOperationFilterInput {
+  eq: RecordResult
+  neq: RecordResult
+  in: [RecordResult!]
+  nin: [RecordResult!]
+}
+
+"Update  webHook"
+input RemoveWebHookInput {
+  "WebHook Id"
+  webHookId: Long!
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+"Update webhook activ state Input"
+input UpdateWebHookActivStateInput {
+  "IsActive"
+  isActive: Boolean!
+  "WebHook Id"
+  webHookId: Long!
+}
+
+"Update  webhook"
+input UpdateWebHookInput {
+  "HookEvents"
+  hookEvents: [HookEventType!]
+  "IsActive"
+  isActive: Boolean!
+  "Secret"
+  secret: String
+  "WebHook Id"
+  webHookId: Long!
+  "Url"
+  webHookUrl: String
+}
+
+"Update webhook secret"
+input UpdateWebHookSecretInput {
+  "Webhook Secret"
+  secret: String
+  "WebHook Id"
+  webHookId: Long!
+}
+
+"Update webhook triger events"
+input UpdateWebHookTriggerEventsInput {
+  "HookEvents"
+  hookEvents: [HookEventType!]
+  "WebHook Id"
+  webHookId: Long!
+}
+
+"Update webhook uri"
+input UpdateWebHookUriInput {
+  "WebHook Id"
+  webHookId: Long!
+  "Webhook Uri"
+  webHookUrl: String
+}
+
+"Represents source hook trigger group"
+enum HookEventType {
+  "Hook - created, hook removed, hook updated, hook enabled/disabled"
+  HOOK
+  "File - create, delete, revision"
+  FILE
+  "Note - create, update, deleted"
+  NOTE
+  "Project - created, add/remove user, archived"
+  PROJECT
+  "Milestone - created, deleted, closed, re-opened"
+  MILESTONE
+}
+
+enum RecordResult {
+  UNDEFINED
+  OK
+  PARAMETER_ERROR
+  HTTP_ERROR
+  DATA_QUERY_ERROR
+}
+
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer(
+  "Deferred when true."
+  if: Boolean
+  "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to."
+  label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+directive @export(as: String) on FIELD
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy(
+  "The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types."
+  url: String!
+) on SCALAR
+
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream(
+  "Streamed when true."
+  if: Boolean
+  "The initial elements that shall be send down to the consumer."
+  initial_count: Int! = 0
+  "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to."
+  label: String
+) on FIELD
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
+
+#######################################################
+# This is demo schema extension of implicit types!
+#######################################################
+
+# extend type Query {
+#   __schema: __Schema!
+#   __type(name: String!): __Type
+# }
+
+# type __Schema {
+#   description: String
+#   types: [__Type!]!
+#   queryType: __Type!
+#   mutationType: __Type
+#   subscriptionType: __Type
+#   directives: [__Directive!]!
+# }
+
+# type __Type {
+#   kind: __TypeKind!
+#   name: String
+#   description: String
+#   # must be non-null for OBJECT and INTERFACE, otherwise null.
+#   fields(includeDeprecated: Boolean = false): [__Field!]
+#   # must be non-null for OBJECT and INTERFACE, otherwise null.
+#   interfaces: [__Type!]
+#   # must be non-null for INTERFACE and UNION, otherwise null.
+#   possibleTypes: [__Type!]
+#   # must be non-null for ENUM, otherwise null.
+#   enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+#   # must be non-null for INPUT_OBJECT, otherwise null.
+#   inputFields: [__InputValue!]
+#   # must be non-null for NON_NULL and LIST, otherwise null.
+#   ofType: __Type
+#   # may be non-null for custom SCALAR, otherwise null.
+#   specifiedByURL: String
+# }
+
+# enum __TypeKind {
+#   SCALAR
+#   OBJECT
+#   INTERFACE
+#   UNION
+#   ENUM
+#   INPUT_OBJECT
+#   LIST
+#   NON_NULL
+# }
+
+# type __Field {
+#   name: String!
+#   description: String
+#   args: [__InputValue!]!
+#   type: __Type!
+#   isDeprecated: Boolean!
+#   deprecationReason: String
+# }
+
+# type __InputValue {
+#   name: String!
+#   description: String
+#   type: __Type!
+#   defaultValue: String
+# }
+
+# type __EnumValue {
+#   name: String!
+#   description: String
+#   isDeprecated: Boolean!
+#   deprecationReason: String
+# }
+
+# type __Directive {
+#   name: String!
+#   description: String
+#   locations: [__DirectiveLocation!]!
+#   args: [__InputValue!]!
+#   isRepeatable: Boolean!
+# }
+
+# enum __DirectiveLocation {
+#   QUERY
+#   MUTATION
+#   SUBSCRIPTION
+#   FIELD
+#   FRAGMENT_DEFINITION
+#   FRAGMENT_SPREAD
+#   INLINE_FRAGMENT
+#   VARIABLE_DEFINITION
+#   SCHEMA
+#   SCALAR
+#   OBJECT
+#   FIELD_DEFINITION
+#   ARGUMENT_DEFINITION
+#   INTERFACE
+#   UNION
+#   ENUM
+#   ENUM_VALUE
+#   INPUT_OBJECT
+#   INPUT_FIELD_DEFINITION
+# }

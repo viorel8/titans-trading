@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591,1570</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Duende.IdentityServer" Version="5.2.2" />
+
+    <PackageReference Include="HotChocolate.AspNetCore" Version="12.6.0" />
+    <PackageReference Include="HotChocolate" Version="12.6.0" />
+    <PackageReference Include="HotChocolate.Data" Version="12.6.0" />
+    
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.6.0" />
+
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="FluentValidation" Version="10.3.3" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.19" />
+    <PackageReference Include="HangFire.Core" Version="1.7.19" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.8.1" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\APIServer\Domain\APIServer.Domain.csproj" />
+    <ProjectReference Include="..\..\APIServer\Persistence\APIServer.Persistence.csproj" />
+    <ProjectReference Include="..\..\IdentityServer\Persistence\Persistence.csproj" />
+
+    <ProjectReference Include="..\..\Shared\Domain\Shared.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Aplication\Shared.Aplication.csproj" />
+    <ProjectReference Include="..\..\Shared\Api\Shared.Api.csproj" />
+  </ItemGroup>
+</Project>
